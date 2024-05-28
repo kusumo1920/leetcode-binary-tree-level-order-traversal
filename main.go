@@ -18,7 +18,7 @@ func main() {
 			},
 		},
 	}
-	output := levelOrder(input)
+	output := levelOrderSolution2(input)
 	fmt.Println(output)
 }
 
@@ -55,4 +55,30 @@ func levelOrder(root *TreeNode) [][]int {
 	}
 
 	return resultValSlice
+}
+
+func levelOrderSolution2(root *TreeNode) [][]int {
+	var result [][]int
+
+	var recursiveFn func(*TreeNode, int)
+	recursiveFn = func(root *TreeNode, level int) {
+		if len(result) == level {
+			result = append(result, nil)
+		}
+
+		result[level] = append(result[level], root.Val)
+
+		if root.Left != nil {
+			recursiveFn(root.Left, level+1)
+		}
+		if root.Right != nil {
+			recursiveFn(root.Right, level+1)
+		}
+	}
+
+	if root != nil {
+		recursiveFn(root, 0)
+	}
+
+	return result
 }
